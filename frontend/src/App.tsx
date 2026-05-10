@@ -3,17 +3,30 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import AppRoutes from './routes/AppRoutes';
 import { useAuthStore } from './store/authStore';
+import { useUiStore } from './store/uiStore';
 
 function App() {
   const location = useLocation();
   const hydrateFromStorage = useAuthStore((state) => state.hydrateFromStorage);
+  const isHydrated = useAuthStore((state) => state.isHydrated);
+  const theme = useUiStore((state) => state.theme);
 
   useEffect(() => {
     hydrateFromStorage();
   }, [hydrateFromStorage]);
 
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
+  if (!isHydrated) return null;
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
       <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}

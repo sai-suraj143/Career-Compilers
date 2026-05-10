@@ -50,15 +50,15 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="rounded-[28px] border border-white/10 bg-slate-950/80 p-8 shadow-glow backdrop-blur-xl md:p-12">
+    <div className="rounded-[28px] border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-8 shadow-glow backdrop-blur-xl md:p-12">
       <div className="mb-8">
-        <h2 className="text-3xl font-semibold text-white">Sign in to your account</h2>
-        <p className="mt-3 text-sm text-slate-400">Manage your trips, itinerary, budgets, and memories with one premium dashboard.</p>
+        <h2 className="text-3xl font-semibold text-slate-900 dark:text-white">Sign in to your account</h2>
+        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Manage your trips, itinerary, budgets, and memories with one premium dashboard.</p>
       </div>
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <Input label="Email" type="email" placeholder="name@traveloop.com" {...register('email')} error={errors.email?.message} />
         <Input label="Password" type="password" placeholder="Enter your password" {...register('password')} error={errors.password?.message} />
-        <div className="flex items-center justify-between text-sm text-slate-400">
+        <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
           <Link to="/auth/forgot-password" className="text-violet-300 hover:text-violet-200">Forgot password?</Link>
           {authError && <span className="text-rose-400">{authError}</span>}
         </div>

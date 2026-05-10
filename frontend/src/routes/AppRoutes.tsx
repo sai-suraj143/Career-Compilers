@@ -18,12 +18,11 @@ const BudgetPage = lazy(() => import('../pages/budget/Budget').then((mod) => ({ 
 const ChecklistPage = lazy(() => import('../pages/trips/Checklist').then((mod) => ({ default: mod.ChecklistPage })));
 const NotesPage = lazy(() => import('../pages/trips/Notes').then((mod) => ({ default: mod.NotesPage })));
 const ProfilePage = lazy(() => import('../pages/profile/Profile').then((mod) => ({ default: mod.ProfilePage })));
-const AdminPage = lazy(() => import('../pages/admin/AdminDashboard').then((mod) => ({ default: mod.AdminPage })));
 const PublicItineraryPage = lazy(() => import('../pages/shared/PublicItinerary').then((mod) => ({ default: mod.PublicItineraryPage })));
 
 const LoadingFallback = () => (
   <div className="px-6 py-10">
-    <Card className="rounded-[32px] border border-white/10 bg-slate-950/90 p-10 text-center text-slate-400">Loading page...</Card>
+    <Card className="rounded-[32px] border border-slate-200 dark:border-white/10 dark:bg-slate-950/90 bg-white p-10 text-center text-slate-500 dark:text-slate-400">Loading page...</Card>
   </div>
 );
 
@@ -50,7 +49,6 @@ const AppRoutes = () => {
           <Route path="checklist" element={<ChecklistPage />} />
           <Route path="notes" element={<NotesPage />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="admin" element={<AdminPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/auth/login" />} />

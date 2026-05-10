@@ -8,7 +8,7 @@ interface SkeletonProps {
 
 export const Skeleton = ({ className, children }: SkeletonProps) => {
   return (
-    <div className={cn('animate-pulse rounded-3xl bg-slate-800/60', className)}>
+    <div className={cn('animate-pulse rounded-3xl bg-slate-100 dark:bg-slate-800/60', className)}>
       {children}
     </div>
   );

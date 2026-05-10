@@ -8,12 +8,12 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 const TextareaComponent = ({ className, label, error, ...props }: TextareaProps, ref: ForwardedRef<HTMLTextAreaElement>) => {
   return (
-    <label className="block text-sm text-slate-200">
-      {label && <span className="mb-2 inline-block font-medium text-slate-300">{label}</span>}
+    <label className="block text-sm text-slate-800 dark:text-slate-200">
+      {label && <span className="mb-2 inline-block font-medium text-slate-700 dark:text-slate-300">{label}</span>}
       <textarea
         ref={ref}
         className={cn(
-          'min-h-[110px] w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20',
+          'min-h-[110px] w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20',
           error && 'border-rose-500 focus:border-rose-400 focus:ring-rose-500/20',
           className
         )}

@@ -3,8 +3,10 @@ const sendResponse = require('../../utils/response');
 const service = require('./service');
 
 const create = asyncHandler(async (req, res) => {
-  const data = await service.create(req.body);
-  sendResponse(res, 201, 'Note added successfully', data);
+  const payload = { ...req.body };
+  if (payload.userId) payload.userId = Number(payload.userId);
+  const data = await service.create(payload);
+  sendResponse(res, 201, 'Note created successfully', data);
 });
 
 const getByTrip = asyncHandler(async (req, res) => {

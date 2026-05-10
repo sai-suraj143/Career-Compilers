@@ -92,27 +92,27 @@ export const BudgetPage = () => {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Trip budget</p>
-              <h3 className="mt-2 text-xl font-semibold text-white">Manage your cost projections.</h3>
+              <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">Manage your cost projections.</h3>
             </div>
             <select
               value={tripId}
               onChange={(event) => setTripId(event.target.value)}
-              className="rounded-3xl border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+              className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
             >
               {trips.map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}
             </select>
           </div>
 
           {loading ? (
-            <div className="h-64 rounded-3xl bg-slate-800/60" />
+            <div className="h-64 rounded-3xl bg-slate-100 dark:bg-slate-800/60" />
           ) : budget ? (
             <div className="grid gap-6 sm:grid-cols-2">
-              <div className="rounded-3xl border border-white/10 bg-slate-950/80 p-6">
+              <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-6">
                 <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Total cost</p>
-                <p className="mt-3 text-4xl font-semibold text-white">{formatCurrency(budget.totalCost)}</p>
-                <p className="mt-3 text-sm text-slate-400">Daily average based on planned transport, stay, food, and activities.</p>
+                <p className="mt-3 text-4xl font-semibold text-slate-900 dark:text-white">{formatCurrency(budget.totalCost)}</p>
+                <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Daily average based on planned transport, stay, food, and activities.</p>
               </div>
-              <div className="rounded-3xl border border-white/10 bg-slate-950/80 p-6">
+              <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-6">
                 <ResponsiveContainer width="100%" height={220}>
                   <PieChart>
                     <Pie data={data} dataKey="value" nameKey="name" innerRadius={60} outerRadius={90} paddingAngle={4}>
@@ -125,14 +125,14 @@ export const BudgetPage = () => {
               </div>
             </div>
           ) : (
-            <div className="rounded-3xl border border-dashed border-slate-700 p-8 text-center text-slate-400">Budget not configured. Create a trip or set values to initialize.</div>
+            <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center text-slate-500 dark:text-slate-400">Budget not configured. Create a trip or set values to initialize.</div>
           )}
         </Card>
 
         <Card className="space-y-6">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Expense breakdown</p>
-            <h3 className="mt-2 text-xl font-semibold text-white">Update your spending assumptions</h3>
+            <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">Update your spending assumptions</h3>
           </div>
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <Input label="Transport" type="number" step="10" {...register('transportCost')} error={errors.transportCost?.message} />

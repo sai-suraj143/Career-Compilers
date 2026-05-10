@@ -49,10 +49,10 @@ export const SignupPage = () => {
   };
 
   return (
-    <div className="rounded-[28px] border border-white/10 bg-slate-950/80 p-8 shadow-glow backdrop-blur-xl md:p-12">
+    <div className="rounded-[28px] border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-8 shadow-glow backdrop-blur-xl md:p-12">
       <div className="mb-8">
-        <h2 className="text-3xl font-semibold text-white">Create your Traveloop account</h2>
-        <p className="mt-3 text-sm text-slate-400">Build a premium planning workspace for your next adventures.</p>
+        <h2 className="text-3xl font-semibold text-slate-900 dark:text-white">Create your Traveloop account</h2>
+        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Build a premium planning workspace for your next adventures.</p>
       </div>
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <Input label="Full name" type="text" placeholder="Avery Taylor" {...register('name')} error={errors.name?.message} />

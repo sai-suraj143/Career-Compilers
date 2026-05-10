@@ -25,8 +25,9 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     const loadProfile = async () => {
+      if (!user?.id) return;
       try {
-        const profile = await fetchProfile();
+        const profile = await fetchProfile(user.id);
         reset(profile);
         setAuth(profile, 'static-token-placeholder');
       } catch (error: unknown) {
@@ -34,11 +35,12 @@ export const ProfilePage = () => {
       }
     };
     loadProfile();
-  }, [reset, setAuth, setToast]);
+  }, [reset, setAuth, setToast, user?.id]);
 
   const onSubmit = async (values: ProfileForm) => {
+    if (!user?.id) return;
     try {
-      const updated = await updateProfile(values);
+      const updated = await updateProfile(user.id, values);
       setAuth(updated, 'static-token-placeholder');
       setToast({ type: 'success', message: 'Profile updated' });
     } catch (error: unknown) {
@@ -53,10 +55,10 @@ export const ProfilePage = () => {
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Personal</p>
-            <h3 className="mt-2 text-xl font-semibold text-white">Account details</h3>
+            <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">Account details</h3>
           </div>
-          <div className="rounded-3xl border border-white/10 bg-slate-950/80 px-4 py-3 text-sm text-slate-300">
-            Saved destinations: <span className="font-semibold text-white">{user?.name ?? 'Traveler'}</span>
+          <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 px-4 py-3 text-sm text-slate-700 dark:text-slate-300">
+            Saved destinations: <span className="font-semibold text-slate-900 dark:text-white">{user?.name ?? 'Traveler'}</span>
           </div>
         </div>
         <form className="grid gap-6 max-w-3xl" onSubmit={handleSubmit(onSubmit)}>

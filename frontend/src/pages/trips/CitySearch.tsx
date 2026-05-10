@@ -35,7 +35,7 @@ export const CitySearchPage = () => {
 
       <div className="grid gap-6 xl:grid-cols-[0.9fr_0.6fr]">
         <Card className="space-y-6">
-          <div className="flex items-center gap-3 text-white">
+          <div className="flex items-center gap-3 text-slate-900 dark:text-white">
             <div className="rounded-3xl bg-indigo-500/10 p-3 text-indigo-300"><Globe className="h-5 w-5" /></div>
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Search cities</p>
@@ -51,7 +51,7 @@ export const CitySearchPage = () => {
             />
             <Button onClick={handleSearch} disabled={loading}>Search</Button>
           </div>
-          <div className="flex items-center gap-3 rounded-3xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-300">
+          <div className="flex items-center gap-3 rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 text-sm text-slate-700 dark:text-slate-300">
             <Filter className="h-4 w-4" />
             <select className="bg-transparent outline-none" value={selectedCountry} onChange={(event) => setSelectedCountry(event.target.value)}>
               {options.map((option) => <option key={option} value={option}>{option}</option>)}
@@ -62,22 +62,22 @@ export const CitySearchPage = () => {
         <Card className="space-y-4">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Explorer</p>
-            <h3 className="text-xl font-semibold text-white">Available cities</h3>
+            <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Available cities</h3>
           </div>
           {loading ? (
             <div className="space-y-3">
-              {Array.from({ length: 3 }).map((_, idx) => <div key={idx} className="h-14 rounded-3xl bg-slate-800/60" />)}
+              {Array.from({ length: 3 }).map((_, idx) => <div key={idx} className="h-14 rounded-3xl bg-slate-100 dark:bg-slate-800/60" />)}
             </div>
           ) : filtered.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-slate-700 p-8 text-center text-slate-400">Search a destination to see city suggestions.</div>
+            <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center text-slate-500 dark:text-slate-400">Search a destination to see city suggestions.</div>
           ) : (
             <div className="space-y-3">
               {filtered.map((city) => (
-                <div key={city.name} className="rounded-3xl border border-white/10 bg-slate-950/80 px-4 py-4">
+                <div key={city.name} className="rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 px-4 py-4">
                   <div className="flex items-center justify-between gap-4">
                     <div>
-                      <p className="font-semibold text-white">{city.name}</p>
-                      <p className="text-sm text-slate-400">{city.country}</p>
+                      <p className="font-semibold text-slate-900 dark:text-white">{city.name}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">{city.country}</p>
                     </div>
                     <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs uppercase tracking-[0.25em] text-violet-300">Popular</span>
                   </div>

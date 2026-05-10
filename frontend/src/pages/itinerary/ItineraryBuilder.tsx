@@ -138,12 +138,12 @@ export const ItineraryPage = () => {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Trip selector</p>
-              <p className="mt-2 text-lg font-semibold text-white">Choose a trip to edit stops</p>
+              <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">Choose a trip to edit stops</p>
             </div>
             <select
               value={tripId}
               onChange={(event) => setTripId(event.target.value)}
-              className="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+              className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
             >
               {trips.map((item) => (
                 <option key={item.id} value={item.id}>{item.title}</option>
@@ -153,15 +153,15 @@ export const ItineraryPage = () => {
           {trip ? (
             <div className="space-y-4">
               {stops.length === 0 ? (
-                <div className="rounded-3xl border border-dashed border-slate-700 p-8 text-center text-slate-400">Add stops to begin building your route.</div>
+                <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center text-slate-500 dark:text-slate-400">Add stops to begin building your route.</div>
               ) : (
                 <div className="space-y-4">
                   {stops.map((stop, index) => (
-                    <div key={stop.id} className="rounded-3xl border border-white/10 bg-slate-950/80 p-5">
+                    <div key={stop.id} className="rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-5">
                       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                          <p className="text-lg font-semibold text-white">{stop.cityName}, {stop.country}</p>
-                          <p className="mt-2 text-sm text-slate-400">{formatDate(stop.arrivalDate)} — {formatDate(stop.departureDate)}</p>
+                          <p className="text-lg font-semibold text-slate-900 dark:text-white">{stop.cityName}, {stop.country}</p>
+                          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{formatDate(stop.arrivalDate)} — {formatDate(stop.departureDate)}</p>
                         </div>
                         <div className="flex items-center gap-2">
                           <Button variant="ghost" size="sm" onClick={() => moveStop(stop, 'up')}><ArrowUp className="h-4 w-4" /></Button>
@@ -169,19 +169,19 @@ export const ItineraryPage = () => {
                           <Button variant="ghost" size="sm" onClick={() => remove(stop.id)}><Trash2 className="h-4 w-4 text-rose-400" /></Button>
                         </div>
                       </div>
-                      <p className="mt-3 text-sm text-slate-400">Stop {index + 1}</p>
+                      <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Stop {index + 1}</p>
                     </div>
                   ))}
                 </div>
               )}
             </div>
           ) : (
-            <div className="rounded-3xl border border-dashed border-slate-700 p-8 text-center text-slate-400">No trip selected. Create a trip to start your itinerary.</div>
+            <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center text-slate-500 dark:text-slate-400">No trip selected. Create a trip to start your itinerary.</div>
           )}
         </Card>
 
         <Card className="space-y-6">
-          <div className="flex items-center gap-3 text-white">
+          <div className="flex items-center gap-3 text-slate-900 dark:text-white">
             <div className="rounded-3xl bg-indigo-500/10 p-3 text-indigo-300"><ListChecks className="h-5 w-5" /></div>
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Add stop</p>

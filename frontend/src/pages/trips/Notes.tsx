@@ -105,12 +105,12 @@ export const NotesPage = () => {
         <Card className="space-y-6">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Trip journal</p>
-            <h3 className="mt-2 text-xl font-semibold text-white">Stay organized with notes.</h3>
+            <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">Stay organized with notes.</h3>
           </div>
           <select
             value={tripId}
             onChange={(event) => setTripId(event.target.value)}
-            className="rounded-3xl border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+            className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
           >
             {trips.map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}
           </select>
@@ -126,26 +126,26 @@ export const NotesPage = () => {
         <Card className="space-y-4">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Recent notes</p>
-            <h3 className="mt-2 text-xl font-semibold text-white">Your travel journal.</h3>
+            <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">Your travel journal.</h3>
           </div>
           {loading ? (
             <div className="space-y-3">
-              {Array.from({ length: 3 }).map((_, idx) => <div key={idx} className="h-20 rounded-3xl bg-slate-800/60" />)}
+              {Array.from({ length: 3 }).map((_, idx) => <div key={idx} className="h-20 rounded-3xl bg-slate-100 dark:bg-slate-800/60" />)}
             </div>
           ) : notes.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-slate-700 p-8 text-center text-slate-400">No notes yet. Start journaling your trip ideas.</div>
+            <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center text-slate-500 dark:text-slate-400">No notes yet. Start journaling your trip ideas.</div>
           ) : (
             <div className="space-y-3">
               {notes.map((note) => (
-                <div key={note.id} className="rounded-3xl border border-white/10 bg-slate-950/80 p-4">
+                <div key={note.id} className="rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-4">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm text-slate-400">{formatDate(note.createdAt)}</p>
-                    <div className="flex items-center gap-2 text-slate-300">
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{formatDate(note.createdAt)}</p>
+                    <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                       <Button variant="ghost" size="sm" onClick={() => startEdit(note)}>Edit</Button>
                       <Button variant="ghost" size="sm" onClick={() => remove(note.id)}>Delete</Button>
                     </div>
                   </div>
-                  <p className="mt-3 text-sm leading-6 text-slate-100">{note.content}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-900 dark:text-slate-100">{note.content}</p>
                 </div>
               ))}
             </div>

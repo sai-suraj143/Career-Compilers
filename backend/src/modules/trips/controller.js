@@ -13,7 +13,11 @@ const getById = asyncHandler(async (req, res) => {
 });
 
 const create = asyncHandler(async (req, res) => {
-  const data = await service.create(req.body);
+  const payload = { ...req.body };
+  if (payload.userId) payload.userId = Number(payload.userId);
+  if (payload.startDate) payload.startDate = new Date(payload.startDate);
+  if (payload.endDate) payload.endDate = new Date(payload.endDate);
+  const data = await service.create(payload);
   sendResponse(res, 201, 'Trip created successfully', data);
 });
 

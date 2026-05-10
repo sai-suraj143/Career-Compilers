@@ -17,7 +17,7 @@ const schema = z.object({
   description: z.string().optional(),
   startDate: z.string().min(1, { message: 'Start date is required' }),
   endDate: z.string().min(1, { message: 'End date is required' }),
-  coverImage: z.string().url().optional(),
+  coverImage: z.string().url().optional().or(z.literal('')),
 });
 
 type CreateTripForm = z.infer<typeof schema>;
@@ -43,7 +43,14 @@ export const CreateTripPage = () => {
       return;
     }
     try {
-      await createTrip({ ...values, userId: user.id });
+      const payload = {
+        ...values,
+        coverImage: values.coverImage || undefined,
+        startDate: new Date(values.startDate).toISOString(),
+        endDate: new Date(values.endDate).toISOString(),
+        userId: user.id,
+      };
+      await createTrip(payload);
       setToast({ type: 'success', message: 'Trip created successfully' });
       navigate('/trips');
     } catch (error: unknown) {

@@ -116,7 +116,7 @@ export const ActivitySearchPage = () => {
             <select
               value={tripId}
               onChange={(event) => setTripId(event.target.value)}
-              className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+              className="mt-3 w-full rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
             >
               {trips.map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}
             </select>
@@ -125,7 +125,7 @@ export const ActivitySearchPage = () => {
             <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Stop</p>
             <select
               {...register('stopId')}
-              className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+              className="mt-3 w-full rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
             >
               <option value="">Select a stop</option>
               {stops.map((stop) => (
@@ -147,19 +147,19 @@ export const ActivitySearchPage = () => {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Search results</p>
-              <h3 className="mt-2 text-xl font-semibold text-white">Find experiences for your route.</h3>
+              <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">Find experiences for your route.</h3>
             </div>
-            <span className="text-sm text-slate-400">{results.length} results</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400">{results.length} results</span>
           </div>
           {results.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-slate-700 p-8 text-center text-slate-400">Search for activities to begin.</div>
+            <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center text-slate-500 dark:text-slate-400">Search for activities to begin.</div>
           ) : (
             <div className="space-y-4">
               {results.map((activity) => (
-                <div key={activity.id} className="flex flex-col gap-4 rounded-3xl border border-white/10 bg-slate-950/80 p-5 sm:flex-row sm:items-center sm:justify-between">
+                <div key={activity.id} className="flex flex-col gap-4 rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-5 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-lg font-semibold text-white">{activity.title}</p>
-                    <p className="mt-2 text-sm text-slate-400">{activity.category} • {formatCurrency(activity.cost)}</p>
+                    <p className="text-lg font-semibold text-slate-900 dark:text-white">{activity.title}</p>
+                    <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{activity.category} • {formatCurrency(activity.cost)}</p>
                     <p className="mt-2 text-sm text-slate-500">{activity.description || 'No description provided.'}</p>
                   </div>
                   <Button disabled={!selectedStopId} onClick={() => addActivity(activity, selectedStopId)}>
@@ -174,25 +174,25 @@ export const ActivitySearchPage = () => {
         <Card className="space-y-6">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Added activities</p>
-            <h3 className="mt-2 text-xl font-semibold text-white">Your itinerary experiences</h3>
+            <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">Your itinerary experiences</h3>
           </div>
           {addedActivities.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-slate-700 p-8 text-center text-slate-400">Added activities will appear here.</div>
+            <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center text-slate-500 dark:text-slate-400">Added activities will appear here.</div>
           ) : (
             <div className="space-y-4">
               {addedActivities.map((activity) => (
-                <div key={activity.id} className="rounded-3xl border border-white/10 bg-slate-950/80 p-4">
+                <div key={activity.id} className="rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-4">
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <p className="font-semibold text-white">{activity.title}</p>
-                      <p className="text-sm text-slate-400">{activity.category}</p>
+                      <p className="font-semibold text-slate-900 dark:text-white">{activity.title}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">{activity.category}</p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm text-slate-300">{formatCurrency(activity.cost)}</span>
+                      <span className="text-sm text-slate-700 dark:text-slate-300">{formatCurrency(activity.cost)}</span>
                       <Button variant="ghost" size="sm" onClick={() => remove(activity.id)}>Remove</Button>
                     </div>
                   </div>
-                  <p className="mt-3 text-sm text-slate-400">Scheduled for {formatDate(activity.activityDate)}</p>
+                  <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Scheduled for {formatDate(activity.activityDate)}</p>
                 </div>
               ))}
             </div>

@@ -3,12 +3,16 @@ const sendResponse = require('../../utils/response');
 const service = require('./service');
 
 const create = asyncHandler(async (req, res) => {
-  const data = await service.create(req.body);
+  const payload = { ...req.body };
+  if (payload.activityDate) payload.activityDate = new Date(payload.activityDate);
+  const data = await service.create(payload);
   sendResponse(res, 201, 'Activity created successfully', data);
 });
 
 const update = asyncHandler(async (req, res) => {
-  const data = await service.update(req.params.id, req.body);
+  const payload = { ...req.body };
+  if (payload.activityDate) payload.activityDate = new Date(payload.activityDate);
+  const data = await service.update(req.params.id, payload);
   sendResponse(res, 200, 'Activity updated successfully', data);
 });
 

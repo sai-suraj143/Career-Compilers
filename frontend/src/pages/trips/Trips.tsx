@@ -19,7 +19,7 @@ const schema = z.object({
   description: z.string().optional(),
   startDate: z.string().min(1, { message: 'Select a start date' }),
   endDate: z.string().min(1, { message: 'Select an end date' }),
-  coverImage: z.string().url().optional(),
+  coverImage: z.string().url().optional().or(z.literal('')),
 });
 
 type TripForm = z.infer<typeof schema>;
@@ -72,7 +72,13 @@ export const TripsPage = () => {
   const onSubmit = async (values: TripForm) => {
     if (!selectedTrip) return;
     try {
-      const updated = await updateTrip(selectedTrip.id, values);
+      const payload = {
+        ...values,
+        coverImage: values.coverImage || undefined,
+        startDate: new Date(values.startDate).toISOString(),
+        endDate: new Date(values.endDate).toISOString(),
+      };
+      const updated = await updateTrip(selectedTrip.id, payload);
       const nextTrips = trips.map((trip) => (trip.id === updated.id ? updated : trip));
       setTrips(nextTrips);
       setSelectedTrip(updated);
@@ -101,15 +107,15 @@ export const TripsPage = () => {
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Trip inventory</p>
-            <h3 className="mt-2 text-xl font-semibold text-white">Search and refine your travel library.</h3>
+            <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">Search and refine your travel library.</h3>
           </div>
-          <div className="flex items-center gap-3 rounded-3xl border border-slate-800 bg-slate-950 px-4 py-3">
-            <Search className="h-4 w-4 text-slate-400" />
+          <div className="flex items-center gap-3 rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3">
+            <Search className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search trips"
-              className="w-full bg-transparent text-slate-100 placeholder:text-slate-500 outline-none"
+              className="w-full bg-transparent text-slate-900 dark:text-slate-100 placeholder:text-slate-500 outline-none"
             />
           </div>
         </div>
@@ -117,22 +123,22 @@ export const TripsPage = () => {
         {loading ? (
           <div className="grid gap-4">
             {Array.from({ length: 3 }).map((_, idx) => (
-              <div key={idx} className="h-24 rounded-3xl bg-slate-800/60" />
+              <div key={idx} className="h-24 rounded-3xl bg-slate-100 dark:bg-slate-800/60" />
             ))}
           </div>
         ) : filteredTrips.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-slate-700 p-10 text-center text-slate-400">No trips match your search. Create a new trip to begin planning.</div>
+          <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-10 text-center text-slate-500 dark:text-slate-400">No trips match your search. Create a new trip to begin planning.</div>
         ) : (
           <div className="grid gap-4">
             {filteredTrips.map((trip) => (
-              <div key={trip.id} className="group rounded-3xl border border-white/10 bg-slate-950/80 p-5 transition hover:border-violet-400/30 hover:bg-slate-900/90">
+              <div key={trip.id} className="group rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-5 transition hover:border-violet-400/30 hover:bg-white dark:bg-slate-900/90">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                   <div>
-                    <p className="text-lg font-semibold text-white">{trip.title}</p>
-                    <p className="mt-2 text-sm text-slate-400">{formatDate(trip.startDate)} — {formatDate(trip.endDate)}</p>
+                    <p className="text-lg font-semibold text-slate-900 dark:text-white">{trip.title}</p>
+                    <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{formatDate(trip.startDate)} — {formatDate(trip.endDate)}</p>
                   </div>
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <span className="rounded-full bg-slate-800 px-3 py-1 text-xs uppercase tracking-[0.25em]">{trip.visibility ?? 'PRIVATE'}</span>
+                  <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                    <span className="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs uppercase tracking-[0.25em]">{trip.visibility ?? 'PRIVATE'}</span>
                     <Button variant="ghost" size="sm" onClick={() => openEditor(trip)}>
                       <Pencil className="h-4 w-4" />
                     </Button>
@@ -141,7 +147,7 @@ export const TripsPage = () => {
                     </Button>
                   </div>
                 </div>
-                <p className="mt-3 text-sm leading-6 text-slate-400">{trip.description || 'No description available.'}</p>
+                <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">{trip.description || 'No description available.'}</p>
               </div>
             ))}
           </div>
@@ -149,11 +155,11 @@ export const TripsPage = () => {
       </Card>
 
       {selectedTrip ? (
-        <Card className="rounded-[32px] border-white/10 bg-slate-950/90 p-6">
+        <Card className="rounded-[32px] border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/90 p-6">
           <div className="mb-6 flex items-center justify-between gap-4">
             <div>
-              <h3 className="text-xl font-semibold text-white">Edit trip</h3>
-              <p className="text-sm text-slate-400">Adjust your trip details and preserve your planning flow.</p>
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Edit trip</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400">Adjust your trip details and preserve your planning flow.</p>
             </div>
             <Button variant="secondary" onClick={() => setSelectedTrip(null)}>Close</Button>
           </div>

@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   name      String
   email     String   @unique
   password  String
@@ -23,7 +23,7 @@ model User {
 
 model Trip {
   id          String   @id @default(uuid())
-  userId      String
+  userId      Int
   title       String
   description String?
   startDate   DateTime
@@ -87,7 +87,7 @@ model Budget {
 model ChecklistItem {
   id       String  @id @default(uuid())
   tripId   String
-  userId   String
+  userId   Int
   itemName String
   category String?
   isPacked Boolean @default(false)
@@ -100,7 +100,7 @@ model Note {
   id        String   @id @default(uuid())
   tripId    String
   stopId    String?
-  userId    String
+  userId    Int
   content   String
   createdAt DateTime @default(now())
 

@@ -86,12 +86,12 @@ export const ChecklistPage = () => {
 
       <Card className="space-y-6">
         <div>
-          <label className="block text-sm text-slate-200">
-            <span className="mb-2 inline-block font-medium text-slate-300">Trip</span>
+          <label className="block text-sm text-slate-800 dark:text-slate-200">
+            <span className="mb-2 inline-block font-medium text-slate-700 dark:text-slate-300">Trip</span>
             <select
               value={tripId}
               onChange={(event) => setTripId(event.target.value)}
-              className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
             >
               <option value="">Select a trip</option>
               {trips.map((trip) => (
@@ -112,17 +112,17 @@ export const ChecklistPage = () => {
       <Card className="space-y-4">
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Packing list</p>
-          <h3 className="mt-2 text-xl font-semibold text-white">Stay organized before departure.</h3>
+          <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">Stay organized before departure.</h3>
         </div>
         {items.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-slate-700 p-8 text-center text-slate-400">Add items to build your packing list.</div>
+          <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center text-slate-500 dark:text-slate-400">Add items to build your packing list.</div>
         ) : (
           <div className="space-y-3">
             {items.map((item) => (
-              <div key={item.id} className="flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-slate-950/80 p-4">
+              <div key={item.id} className="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-4">
                 <div>
-                  <p className="font-semibold text-white">{item.itemName}</p>
-                  <p className="text-sm text-slate-400">{item.category || 'General'}</p>
+                  <p className="font-semibold text-slate-900 dark:text-white">{item.itemName}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{item.category || 'General'}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Button variant={item.isPacked ? 'secondary' : 'ghost'} size="sm" onClick={() => togglePacked(item)}>
