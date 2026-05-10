@@ -10,7 +10,7 @@ The platform enables travelers to:
 - Maintain packing checklists
 - Add travel notes/journals
 - Share itineraries publicly
-- Visualize trip analytics
+- Visualize trip analytics.
 
 Built as a scalable full-stack application using modern web technologies.
 
