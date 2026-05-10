@@ -7,7 +7,7 @@ export interface User {
 
 export interface Trip {
   id: string;
-  userId: string;
+  userId: number;
   title: string;
   description?: string;
   startDate: string;
@@ -27,6 +27,7 @@ export interface Stop {
   arrivalDate: string;
   departureDate: string;
   orderIndex: number;
+  activities?: Activity[];
 }
 
 export interface Activity {
@@ -54,17 +55,17 @@ export interface Budget {
 export interface ChecklistItem {
   id: string;
   tripId: string;
-  userId: string;
-  itemName: string;
+  userId: number;
+  title: string;
   category?: string;
-  isPacked: boolean;
+  packed: boolean;
 }
 
 export interface Note {
   id: string;
   tripId: string;
   stopId?: string | null;
-  userId: string;
+  userId: number;
   content: string;
   createdAt: string;
 }

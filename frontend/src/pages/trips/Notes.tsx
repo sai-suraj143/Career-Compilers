@@ -25,9 +25,13 @@ export const NotesPage = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const user = useAuthStore((state) => state.user);
   const setToast = useUiStore((state) => state.setToast);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<NoteForm>({ resolver: zodResolver(schema) });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<NoteForm>({ 
+    resolver: zodResolver(schema),
+    defaultValues: { content: '' }
+  });
 
   useEffect(() => {
     const loadTrips = async () => {
@@ -58,14 +62,24 @@ export const NotesPage = () => {
   }, [tripId, setToast]);
 
   const onSubmit = async (values: NoteForm) => {
-    if (!user || !tripId) return;
+    if (!user) {
+      setToast({ type: 'error', message: 'Please log in to add notes.' });
+      return;
+    }
+    if (!tripId) {
+      setToast({ type: 'error', message: 'Select a trip to attach notes.' });
+      return;
+    }
     try {
+      setSubmitting(true);
       const note = await createNote({ tripId, userId: user.id, content: values.content });
       setNotes((current) => [note, ...current]);
       reset();
       setToast({ type: 'success', message: 'Note saved' });
     } catch (error: unknown) {
       setToast({ type: 'error', message: error instanceof Error ? error.message : 'Unable to save note' });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -118,7 +132,9 @@ export const NotesPage = () => {
             <Input label="Note" placeholder="Write your note here..." {...register('content')} error={errors.content?.message} />
             <div className="flex justify-end gap-3">
               {editingId ? <Button variant="secondary" onClick={() => { setEditingId(null); reset(); }}>Cancel</Button> : null}
-              <Button type="submit">{editingId ? 'Save note' : 'Add note'}</Button>
+              <Button type="submit" disabled={submitting || !tripId}>
+                {submitting ? 'Processing...' : editingId ? 'Save note' : 'Add note'}
+              </Button>
             </div>
           </form>
         </Card>

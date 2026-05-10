@@ -22,7 +22,7 @@ const remove = asyncHandler(async (req, res) => {
 });
 
 const search = asyncHandler(async (req, res) => {
-  const data = await service.search(req.query.q);
+  const data = await service.search(req.query.q, req.query.stopId);
   sendResponse(res, 200, 'Activities fetched successfully', data);
 });
 

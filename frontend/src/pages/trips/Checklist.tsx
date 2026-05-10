@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { useAuthStore } from '../../store/authStore';
 import { useUiStore } from '../../store/uiStore';
 import { fetchTrips } from '../../services/trips';
-import { addChecklistItem, deleteChecklistItem, updateChecklistItem } from '../../services/checklist';
+import { addChecklistItem, deleteChecklistItem, fetchChecklistByTrip, updateChecklistItem } from '../../services/checklist';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { Input } from '../../components/ui/Input';
@@ -13,7 +13,7 @@ import { PageHeader } from '../../components/common/PageHeader';
 import type { ChecklistItem, Trip } from '../../types';
 
 const schema = z.object({
-  itemName: z.string().min(2, { message: 'Add an item name' }),
+  title: z.string().min(2, { message: 'Add an item name' }),
   category: z.string().optional(),
 });
 
@@ -25,20 +25,41 @@ export const ChecklistPage = () => {
   const [items, setItems] = useState<ChecklistItem[]>([]);
   const [trips, setTrips] = useState<Trip[]>([]);
   const [tripId, setTripId] = useState('');
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ChecklistForm>({ resolver: zodResolver(schema) });
+  const [submitting, setSubmitting] = useState(false);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<ChecklistForm>({ 
+    resolver: zodResolver(schema),
+    defaultValues: { title: '', category: '' }
+  });
 
   useEffect(() => {
     const loadTrips = async () => {
       try {
         const allTrips = await fetchTrips();
         setTrips(allTrips);
-        setTripId(allTrips[0]?.id ?? '');
+        if (allTrips.length > 0) {
+          setTripId(allTrips[0].id);
+        } else {
+          setTripId('');
+        }
       } catch (error: unknown) {
         setToast({ type: 'error', message: error instanceof Error ? error.message : 'Unable to load trips' });
       }
     };
     loadTrips();
   }, [setToast]);
+
+  useEffect(() => {
+    const loadItems = async () => {
+      if (!tripId) return;
+      try {
+        const data = await fetchChecklistByTrip(tripId);
+        setItems(data);
+      } catch (error: unknown) {
+        setToast({ type: 'error', message: error instanceof Error ? error.message : 'Unable to load checklist items' });
+      }
+    };
+    loadItems();
+  }, [tripId, setToast]);
 
   const onSubmit = async (values: ChecklistForm) => {
     if (!user) {
@@ -51,18 +72,21 @@ export const ChecklistPage = () => {
       return;
     }
     try {
-      const item = await addChecklistItem({ tripId, userId: user.id, itemName: values.itemName, category: values.category, isPacked: false });
+      setSubmitting(true);
+      const item = await addChecklistItem({ tripId, userId: user.id, title: values.title, category: values.category, packed: false });
       setItems((current) => [item, ...current]);
       reset();
       setToast({ type: 'success', message: 'Item added.' });
     } catch (error: unknown) {
       setToast({ type: 'error', message: error instanceof Error ? error.message : 'Unable to add item' });
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const togglePacked = async (item: ChecklistItem) => {
     try {
-      const updated = await updateChecklistItem(item.id, { isPacked: !item.isPacked });
+      const updated = await updateChecklistItem(item.id, { packed: !item.packed });
       setItems((current) => current.map((entry) => (entry.id === updated.id ? updated : entry)));
       setToast({ type: 'success', message: 'Checklist updated.' });
     } catch (error: unknown) {
@@ -101,10 +125,12 @@ export const ChecklistPage = () => {
           </label>
         </div>
         <form className="grid gap-4 sm:grid-cols-[1fr_auto]" onSubmit={handleSubmit(onSubmit)}>
-          <Input label="Item name" placeholder="Passport, chargers, sunscreen" {...register('itemName')} error={errors.itemName?.message} />
+          <Input label="Item name" placeholder="Passport, chargers, sunscreen" {...register('title')} error={errors.title?.message} />
           <Input label="Category" placeholder="Documents, Gear, Essentials" {...register('category')} error={errors.category?.message} />
           <div className="sm:col-span-2 flex justify-end">
-            <Button type="submit">Add item</Button>
+            <Button type="submit" disabled={submitting || !tripId}>
+              {submitting ? 'Adding...' : 'Add item'}
+            </Button>
           </div>
         </form>
       </Card>
@@ -121,12 +147,12 @@ export const ChecklistPage = () => {
             {items.map((item) => (
               <div key={item.id} className="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 p-4">
                 <div>
-                  <p className="font-semibold text-slate-900 dark:text-white">{item.itemName}</p>
+                  <p className="font-semibold text-slate-900 dark:text-white">{item.title}</p>
                   <p className="text-sm text-slate-500 dark:text-slate-400">{item.category || 'General'}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant={item.isPacked ? 'secondary' : 'ghost'} size="sm" onClick={() => togglePacked(item)}>
-                    {item.isPacked ? 'Packed' : 'Mark packed'}
+                  <Button variant={item.packed ? 'secondary' : 'ghost'} size="sm" onClick={() => togglePacked(item)}>
+                    {item.packed ? 'Packed' : 'Mark packed'}
                   </Button>
                   <Button variant="ghost" size="sm" onClick={() => removeItem(item.id)}>Remove</Button>
                 </div>

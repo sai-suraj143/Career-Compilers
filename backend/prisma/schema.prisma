@@ -36,6 +36,7 @@ model Trip {
   stops          Stop[]
   budget         Budget?
   checklistItems ChecklistItem[]
+  activities     Activity[]
   notes          Note[]
 }
 
@@ -59,16 +60,20 @@ model Stop {
 }
 
 model Activity {
-  id           String   @id @default(uuid())
+  id           String    @id @default(uuid())
+  tripId       String
   stopId       String
   title        String
-  category     String
-  cost         Float    @default(0.0)
-  duration     Int?     // in minutes
-  activityDate DateTime
+  category     String?
+  cost         Float?    @default(0.0)
+  duration     Int? // in minutes
+  activityDate DateTime?
   description  String?
   imageUrl     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
   stop Stop @relation(fields: [stopId], references: [id], onDelete: Cascade)
 }
 
@@ -85,12 +90,14 @@ model Budget {
 }
 
 model ChecklistItem {
-  id       String  @id @default(uuid())
-  tripId   String
-  userId   Int
-  itemName String
-  category String?
-  isPacked Boolean @default(false)
+  id        String   @id @default(uuid())
+  tripId    String
+  userId    Int
+  title     String
+  category  String?
+  packed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -10,3 +10,8 @@ export const updateBudget = async (tripId: string, payload: Partial<Budget>) => 
   const response = await api.put<{ data: Budget }>(`/budget/${tripId}`, payload);
   return response.data.data;
 };
+
+export const fetchBudgetSummary = async (userId: string) => {
+  const response = await api.get<{ data: { totalBudget: number } }>(`/budget/summary/${userId}`);
+  return response.data.data;
+};

@@ -1,9 +1,9 @@
 import api from '../api/axios';
 import type { Activity } from '../types';
 
-export const searchActivities = async (query: string) => {
+export const searchActivities = async (query: string, stopId: string) => {
   const response = await api.get<{ data: Activity[] }>('/activities/search', {
-    params: { q: query },
+    params: { q: query, stopId },
   });
   return response.data.data;
 };

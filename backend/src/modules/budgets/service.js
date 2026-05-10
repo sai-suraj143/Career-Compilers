@@ -1,5 +1,6 @@
 const repo = require('./repository');
 
+const getSummary = async (userId) => repo.getSummary(userId);
 const getByTripId = async (tripId) => repo.findByTripId(tripId);
 
 const update = async (tripId, data) => {
@@ -12,4 +13,4 @@ const recalculate = async (tripId) => {
   return true;
 };
 
-module.exports = { getByTripId, update, recalculate };
+module.exports = { getSummary, getByTripId, update, recalculate };
